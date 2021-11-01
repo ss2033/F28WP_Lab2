@@ -11,6 +11,8 @@ function Bear() {
         this.display(); 
     }; 
     this.display = function() { 
+        //Adjusts the position of bear and displays it 
+        this.fitBounds();
         this.htmlElement.style.left = this.x + "px"; 
         this.htmlElement.style.top = this.y + "px"; 
         this.htmlElement.style.display = "block"; 
@@ -33,6 +35,7 @@ function Bear() {
         this.y = h - ih; 
     };
     this.setSpeed = function(val) {
+        // Sets the speed of the bear
         this.dBear = val;
     };
 }
@@ -42,6 +45,7 @@ function start() {
     bear = new Bear(); 
     // Add an event listener to the keypress event. 
     document.addEventListener("keydown", moveBear, false);
+    // Sets the speed of the bear upon 'change' event
     document.getElementById("bearSpeed").addEventListener("change",(e)=>{
         val = e.target.value;
         bear.setSpeed(val);
@@ -53,7 +57,7 @@ function start() {
     makeBees();
     updateBees();
 
-    //take start time 
+    //Initializes the lastStingTime when a key is pressed
     document.addEventListener("keydown", function() {
         lastStingTime = new Date();
     });
@@ -127,6 +131,7 @@ class Bee {
 
 // To generate a random value between 0 and max
 function getRandomInt(max) {
+    // Generates a random number between 0 and specified value using Math class
     return Math.floor(Math.random() * max);
 }
 
@@ -168,17 +173,22 @@ function makeBees() {
     let i = 1; 
     while (i <= nbBees) { 
         var num = i;
+        // Adds a new bee if the user input is more than the number of existing bees
         if(bees.length < nbBees) {
             var bee = new Bee(num); //create object and its IMG element
             bee.display(); //display the bee
             bees.push(bee); //add the bee object to the bees array 
         }
+        // Condition breaks if the user input and existing bees are equal
         else if(bees.length==nbBees) {
             break;
         }
+        // Else displays an alert and breaks the condition
         else {
             window.alert("Please enter a bigger number!");
+            break;
         }
+        // Increments to run the loop
         i++; 
     }
 }
@@ -205,10 +215,11 @@ function updateBees() { // update loop for game
     if(hits.innerHTML<1000) {
         updateTimer = setTimeout('updateBees()', period);
     }
-    // Else cleartimeout
+    // Else cancels the timer that was set
     else {
         clearTimeout(updateTimer);
-        gameStatus.innerHTML = "GAME OVER!";
+        // Alerts the message "GAME OVER"
+        window.alert("GAME OVER!!");
     }
 }
 
@@ -223,6 +234,7 @@ function isHit(defender, offender) {
         let thisDuration = newStingTime - lastStingTime; 
         lastStingTime = newStingTime;
         let longestDuration = Number(duration.innerHTML);
+        // Checks if thisDuration is a number
         if(!isNaN(thisDuration)) {  
             if (longestDuration === 0) { 
                 longestDuration = thisDuration; 
@@ -260,6 +272,7 @@ function overlap(element1, element2) {
 }
 
 function addBee() {
+    // Gets the beeNumber of the new bee
     let i = bees.length+1;
     var bee = new Bee(i); //create object and its IMG element
     bee.display(); //display the bee
