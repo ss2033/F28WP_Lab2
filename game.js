@@ -45,7 +45,7 @@ function start() {
     bear = new Bear(); 
     // Add an event listener to the keypress event. 
     document.addEventListener("keydown", moveBear, false);
-    // Sets the speed of the bear upon 'change' event
+    // Sets the speed of the bear upon invoking the 'change' event
     document.getElementById("bearSpeed").addEventListener("change",(e)=>{
         val = e.target.value;
         bear.setSpeed(val);
@@ -233,7 +233,7 @@ function isHit(defender, offender) {
         let newStingTime = new Date(); 
         let thisDuration = newStingTime - lastStingTime; 
         lastStingTime = newStingTime;
-        let longestDuration = Number(duration.innerHTML);
+        let longestDuration = duration.innerHTML;
         // Checks if thisDuration is a number
         if(!isNaN(thisDuration)) {  
             if (longestDuration === 0) { 
