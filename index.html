@@ -11,6 +11,7 @@
         var bear;
         var bees;
         var updateTimer;
+        var lastStingTime;
     </script>
     <noscript> 
         Warning - JavaScript is Disabled. For full functionality of this page, it is necessary to enable JavaScript. 
@@ -19,7 +20,7 @@
 
         <div id="title">
             <h1>Help the bear escape the bees !</h1>
-            <p>Bear tries to avoid being stung by <input type="text" id="nbBees" value="1" size="3"> bees by running and jumping. The objective is to have as less stings as possible!</p>
+            <p>Bear tries to avoid being stung by <input type="text" id="nbBees" value="1" size="3" onchange="makeBees()"> bees by running and jumping. The objective is to have as less stings as possible! <br><button id="addBee" onclick="addBee()">Add Bee</button></p>
             <p>You can ajust bees' speed <input type="text" id="speedBees" value="50" size="3"> px/ms
                 <br> and the refresh period <input type="text" id="periodTimer" value="10" size="3"> ms </p>
             <p>Speed of the bear: <input type="text" id="bearSpeed" value="50" size="3"> px/ms</p>
@@ -33,7 +34,10 @@
                         <p>Stings: [<span id="hits">0</span>]</p>
                     </td>
                     <td>
-                        <p>Best duration: [<span id="duration">?</span>]</p>
+                        <p>Best duration: [<span id="duration">0</span>]</p>
+                    </td>
+                    <td>
+                        <b><p id="gameStatus"></p></b>
                     </td>
                 </tr>
             </table>

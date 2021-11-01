@@ -52,6 +52,11 @@ function start() {
     //create bees 
     makeBees();
     updateBees();
+
+    //take start time 
+    document.addEventListener("keydown", function() {
+        lastStingTime = new Date();
+    });
 }
 
 // Handle keyboard events to move the bear 
@@ -162,12 +167,20 @@ function makeBees() {
     //create bees 
     let i = 1; 
     while (i <= nbBees) { 
-        var num = i; 
-        var bee = new Bee(num); //create object and its IMG element 
-        bee.display(); //display the bee 
-        bees.push(bee); //add the bee object to the bees array 
+        var num = i;
+        if(bees.length < nbBees) {
+            var bee = new Bee(num); //create object and its IMG element
+            bee.display(); //display the bee
+            bees.push(bee); //add the bee object to the bees array 
+        }
+        else if(bees.length==nbBees) {
+            break;
+        }
+        else {
+            window.alert("Please enter a bigger number!");
+        }
         i++; 
-    } 
+    }
 }
 
 function moveBees() { 
@@ -188,12 +201,39 @@ function updateBees() { // update loop for game
     //use a fixed update period 
     let period = document.getElementById("periodTimer").value;
 
-    if (hits.innerHTML==1000) {;
-        // console.log("Reached 10");
+    //update the timer for the next move if stings is less than 1000
+    if(hits.innerHTML<1000) {
+        updateTimer = setTimeout('updateBees()', period);
     }
+    // Else cleartimeout
+    else {
+        clearTimeout(updateTimer);
+        gameStatus.innerHTML = "GAME OVER!";
+    }
+}
 
-    //update the timer for the next move 
-    updateTimer = setTimeout('updateBees()', period);
+function isHit(defender, offender) { 
+    if (overlap(defender, offender)) { //check if the two image overlap 
+        let score = hits.innerHTML; 
+        score = Number(score) + 1; //increment the score 
+        hits.innerHTML = score; //display the new score 
+
+        //calculate longest duration 
+        let newStingTime = new Date(); 
+        let thisDuration = newStingTime - lastStingTime; 
+        lastStingTime = newStingTime;
+        let longestDuration = Number(duration.innerHTML);
+        if(!isNaN(thisDuration)) {  
+            if (longestDuration === 0) { 
+                longestDuration = thisDuration; 
+            } 
+            else { 
+                if (longestDuration < thisDuration) 
+                    longestDuration = thisDuration; 
+            } 
+        }
+        document.getElementById("duration").innerHTML = longestDuration;
+    }   
 }
 
 function overlap(element1, element2) { 
@@ -219,10 +259,9 @@ function overlap(element1, element2) {
     return true; 
 }
 
-function isHit(defender, offender) { 
-    if (overlap(defender, offender)) { //check if the two image overlap 
-    let score = hits.innerHTML; 
-    score = Number(score) + 1; //increment the score 
-    hits.innerHTML = score; //display the new score 
-    }
+function addBee() {
+    let i = bees.length+1;
+    var bee = new Bee(i); //create object and its IMG element
+    bee.display(); //display the bee
+    bees.push(bee); //add the bee object to the bees array
 }
